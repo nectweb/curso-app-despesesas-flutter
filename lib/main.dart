@@ -18,6 +18,9 @@ class MyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Home!! Initial project."));
+    return Scaffold(
+      appBar: AppBar(title: Text("Aplicativo de Despesas!")),
+      body: Center(child: Text("Bem vindo ao App!")),
+    );
   }
 }
