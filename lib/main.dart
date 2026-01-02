@@ -1,5 +1,6 @@
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(Expenses());
@@ -15,6 +16,9 @@ class Expenses extends StatelessWidget {
 }
 
 class MyHome extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+
   final _transactions = [
     Transaction(
       id: 't1',
@@ -37,7 +41,6 @@ class MyHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Aplicativo de Despesas!")),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
@@ -84,7 +87,7 @@ class MyHome extends StatelessWidget {
                         ),
                         Text(
                           style: TextStyle(color: Colors.grey),
-                          tr.date.toString(),
+                          DateFormat('d MMM y').format(tr.date),
                         ),
                       ],
                     ),
@@ -92,6 +95,43 @@ class MyHome extends StatelessWidget {
                 ),
               );
             }).toList(),
+          ),
+
+          Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: "Titulo:"),
+                    controller: titleController,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: "Valor R\$:"),
+                    controller: valueController,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          elevation: WidgetStatePropertyAll(0),
+                        ),
+                        onPressed: () {
+                          print(titleController.text);
+                          print(valueController.text);
+                        },
+                        child: Text(
+                          'Nova Transação',
+                          style: TextStyle(color: Colors.purple),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
