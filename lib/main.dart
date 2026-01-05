@@ -14,7 +14,27 @@ class Expenses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHome());
+    return MaterialApp(
+      home: MyHome(),
+      theme: ThemeData(
+        useMaterial3: false,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.amber,
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+          ),
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          primary: Colors.amber,
+          secondary: Colors.purple,
+          seedColor: Colors.amber,
+        ),
+        fontFamily: 'Montserrat',
+      ),
+    );
   }
 }
 
@@ -69,7 +89,6 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
         title: Text(
           "Aplicativo de Despesas!",
           style: TextStyle(color: Colors.white),
@@ -96,8 +115,6 @@ class _MyHomeState extends State<MyHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openModalTransaction(context),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(100)),
         ),
