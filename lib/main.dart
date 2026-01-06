@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transactions_list.dart';
 import 'package:expenses/models/transaction.dart';
@@ -46,20 +47,38 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  final _transactions = [
+  final List<Transaction> _transactions = [
+    Transaction(
+      id: 't0',
+      title: 'Conta Antiga',
+      value: 400.00,
+      date: DateTime.now().subtract(const Duration(days: 33)),
+    ),
     Transaction(
       id: 't1',
-      title: 'Ténis de corrida',
-      date: DateTime.now(),
-      value: 310.50,
+      title: 'Novo Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
       id: 't2',
-      title: 'Conta de energia',
-      date: DateTime.now(),
-      value: 210.30,
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now().subtract(const Duration(days: 4)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now().subtract(const Duration(days: 4)),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   void _addTransactions(String title, double value) {
     final newTransaction = Transaction(
@@ -105,11 +124,12 @@ class _MyHomeState extends State<MyHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              padding: EdgeInsetsDirectional.all(10),
-              child: Card(child: Text("Card de Gráfico")),
+            Column(
+              children: [
+                Chart(_recentTransactions),
+                TransactionsList(transactions: _transactions),
+              ],
             ),
-            Column(children: [TransactionsList(transactions: _transactions)]),
           ],
         ),
       ),
