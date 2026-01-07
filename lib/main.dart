@@ -127,7 +127,7 @@ class _MyHomeState extends State<MyHome> {
             Column(
               children: [
                 Chart(_recentTransactions),
-                TransactionsList(transactions: _transactions),
+                TransactionsList(transactions: _transactions.reversed.toList()),
               ],
             ),
           ],

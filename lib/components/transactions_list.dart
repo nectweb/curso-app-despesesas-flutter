@@ -36,47 +36,36 @@ class TransactionsList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 final tr = transactions[index];
                 return Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.all(Radius.zero),
+                  elevation: 5,
+                  margin: EdgeInsetsGeometry.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2, color: Colors.purple),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          style: TextStyle(
-                            color: Colors.purple,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          'R\$ ${tr.value.toStringAsFixed(2).replaceAll('.', ',')}',
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple,
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$${tr.value}',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              color: Colors.amber,
+                              fontWeight: FontWeight.w700,
                             ),
-                            tr.title,
                           ),
-                          Text(
-                            style: TextStyle(color: Colors.grey),
-                            DateFormat('d MMM y').format(tr.date),
-                          ),
-                        ],
+                        ),
                       ),
-                    ],
+                    ),
+                    title: Text(
+                      tr.title,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(DateFormat('d MMM y').format(tr.date)),
                   ),
                 );
               },
