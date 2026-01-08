@@ -29,7 +29,7 @@ class Expenses extends StatelessWidget {
           ),
         ),
         colorScheme: ColorScheme.fromSeed(
-          primary: Colors.amber,
+          primary: Colors.purple,
           secondary: Colors.purple,
           seedColor: Colors.amber,
         ),
@@ -47,32 +47,7 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'Conta Antiga',
-      value: 400.00,
-      date: DateTime.now().subtract(const Duration(days: 33)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -80,11 +55,11 @@ class _MyHomeState extends State<MyHome> {
     }).toList();
   }
 
-  void _addTransactions(String title, double value) {
+  void _addTransactions(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
-      date: DateTime.now(),
+      date: date,
       value: value,
     );
 
@@ -102,6 +77,14 @@ class _MyHomeState extends State<MyHome> {
         return TransactionForm(onSubmit: _addTransactions);
       },
     );
+  }
+
+  _removeTransactions(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) {
+        return tr.id == id;
+      });
+    });
   }
 
   @override
@@ -127,7 +110,10 @@ class _MyHomeState extends State<MyHome> {
             Column(
               children: [
                 Chart(_recentTransactions),
-                TransactionsList(transactions: _transactions.reversed.toList()),
+                TransactionsList(
+                  transactions: _transactions.reversed.toList(),
+                  removeTransactions: _removeTransactions,
+                ),
               ],
             ),
           ],
