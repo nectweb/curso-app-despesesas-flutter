@@ -79,7 +79,7 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
-  _removeTransactions(String id) {
+  void _removeTransactions(String id) {
     setState(() {
       _transactions.removeWhere((tr) {
         return tr.id == id;
@@ -89,30 +89,47 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Aplicativo de Despesas!",
-          style: TextStyle(color: Colors.white),
+    final appBar = AppBar(
+      title: Text(
+        "Aplicativo de Despesas",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20 * MediaQuery.textScalerOf(context).scale(1),
         ),
-        actions: [
-          IconButton(
-            onPressed: () => _openModalTransaction(context),
-            icon: Icon(Icons.add),
-            style: ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
-          ),
-        ],
       ),
+      actions: [
+        IconButton(
+          iconSize: 29 * MediaQuery.textScalerOf(context).scale(1),
+          onPressed: () => _openModalTransaction(context),
+          icon: Icon(Icons.add),
+          style: ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
+        ),
+      ],
+    );
+
+    final heightAvailable =
+        MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Column(
               children: [
-                Chart(_recentTransactions),
-                TransactionsList(
-                  transactions: _transactions.reversed.toList(),
-                  removeTransactions: _removeTransactions,
+                SizedBox(
+                  height: heightAvailable * 0.25,
+                  child: Chart(_recentTransactions),
+                ),
+                SizedBox(
+                  height: heightAvailable * 0.75,
+                  child: TransactionsList(
+                    transactions: _transactions.reversed.toList(),
+                    removeTransactions: _removeTransactions,
+                  ),
                 ),
               ],
             ),

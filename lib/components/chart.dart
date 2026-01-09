@@ -41,21 +41,26 @@ class Chart extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          spacing: 7,
-          children: groupedTransactions.map((tr) {
-            return Flexible(
-              fit: FlexFit.tight,
-              child: ChartBar(
-                label: tr['day'].toString(),
-                value: double.parse(tr['value'].toString()),
-                percentage: _wekkeDayTotal == 0
-                    ? 0
-                    : (tr['value'] as double) / _wekkeDayTotal,
-              ),
-            );
-          }).toList(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              spacing: 7,
+              children: groupedTransactions.map((tr) {
+                return Flexible(
+                  fit: FlexFit.tight,
+                  child: ChartBar(
+                    label: tr['day'].toString(),
+                    value: double.parse(tr['value'].toString()),
+                    percentage: _wekkeDayTotal == 0
+                        ? 0
+                        : (tr['value'] as double) / _wekkeDayTotal,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
         ),
       ),
     );

@@ -13,7 +13,7 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  DateTime _selectedDate = DateTime(2019);
+  DateTime _selectedDate = DateTime.now();
 
   void _onSubmit() {
     final title = _titleController.text;

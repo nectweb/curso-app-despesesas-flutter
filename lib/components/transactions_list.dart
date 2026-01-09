@@ -14,72 +14,68 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 420,
-      padding: EdgeInsets.all(10),
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                SizedBox(height: 10),
-                Text(
-                  "Lista vázia no momento",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return transactions.isEmpty
+        ? Column(
+            children: [
+              SizedBox(height: 10),
+              Text(
+                "Lista vázia no momento",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.all(2),
+                height: 200,
+                child: Image(
+                  image: AssetImage('assets/images/empty.png'),
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 10),
-                Container(
-                  padding: EdgeInsets.all(2),
-                  height: 200,
-                  child: Image(
-                    image: AssetImage('assets/images/empty.png'),
-                    fit: BoxFit.cover,
-                  ),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (ctx, index) {
+              final tr = transactions[index];
+              return Card(
+                elevation: 5,
+                margin: EdgeInsetsGeometry.symmetric(
+                  vertical: 8,
+                  horizontal: 10,
                 ),
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (ctx, index) {
-                final tr = transactions[index];
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsetsGeometry.symmetric(
-                    vertical: 8,
-                    horizontal: 10,
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.purple,
-                      child: Padding(
-                        padding: const EdgeInsets.all(7),
-                        child: FittedBox(
-                          child: Text(
-                            'R\$${tr.value}',
-                            style: TextStyle(
-                              color: Colors.amber,
-                              fontWeight: FontWeight.w700,
-                            ),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.purple,
+                    child: Padding(
+                      padding: const EdgeInsets.all(7),
+                      child: FittedBox(
+                        child: Text(
+                          'R\$${tr.value}',
+                          style: TextStyle(
+                            color: Colors.amber,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
                     ),
-                    title: Text(
-                      tr.title,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(DateFormat('d MMM y').format(tr.date)),
-                    trailing: IconButton(
-                      onPressed: () => removeTransactions(tr.id),
-                      color: Colors.red,
-                      icon: Icon(Icons.delete),
+                  ),
+                  title: Text(
+                    tr.title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              },
-            ),
-    );
+                  subtitle: Text(DateFormat('d MMM y').format(tr.date)),
+                  trailing: IconButton(
+                    onPressed: () => removeTransactions(tr.id),
+                    color: Colors.red,
+                    icon: Icon(Icons.delete),
+                  ),
+                ),
+              );
+            },
+          );
   }
 }
