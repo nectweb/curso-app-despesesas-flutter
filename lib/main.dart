@@ -48,6 +48,7 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   final List<Transaction> _transactions = [];
+  bool _showGrafic = true;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -89,6 +90,9 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: Text(
         "Aplicativo de Despesas",
@@ -98,6 +102,17 @@ class _MyHomeState extends State<MyHome> {
         ),
       ),
       actions: [
+        if (isLandscape)
+          IconButton(
+            iconSize: 29 * MediaQuery.textScalerOf(context).scale(1),
+            onPressed: () {
+              setState(() {
+                _showGrafic = !_showGrafic;
+              });
+            },
+            icon: Icon(_showGrafic ? Icons.show_chart : Icons.list),
+            style: ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
+          ),
         IconButton(
           iconSize: 29 * MediaQuery.textScalerOf(context).scale(1),
           onPressed: () => _openModalTransaction(context),
@@ -120,17 +135,34 @@ class _MyHomeState extends State<MyHome> {
           children: <Widget>[
             Column(
               children: [
-                SizedBox(
-                  height: heightAvailable * 0.25,
-                  child: Chart(_recentTransactions),
-                ),
-                SizedBox(
-                  height: heightAvailable * 0.75,
-                  child: TransactionsList(
-                    transactions: _transactions.reversed.toList(),
-                    removeTransactions: _removeTransactions,
+                // if (isLandscape)
+                //   Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text("Exibir Gráfico: "),
+                //       Switch(
+                //         value: _showGrafic,
+                //         onChanged: (value) {
+                //           setState(() {
+                //             _showGrafic = value;
+                //           });
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                if (_showGrafic || !isLandscape)
+                  SizedBox(
+                    height: heightAvailable * (isLandscape ? 0.7 : 0.25),
+                    child: Chart(_recentTransactions),
                   ),
-                ),
+                if (!_showGrafic || !isLandscape)
+                  SizedBox(
+                    height: heightAvailable * 0.75,
+                    child: TransactionsList(
+                      transactions: _transactions.reversed.toList(),
+                      removeTransactions: _removeTransactions,
+                    ),
+                  ),
               ],
             ),
           ],
