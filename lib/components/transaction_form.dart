@@ -45,68 +45,77 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
+    final paddingButton = MediaQuery.of(context).viewInsets.bottom + 10;
+
     return Card(
-      elevation: 5,
+      elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: "Titulo:"),
-              controller: _titleController,
-              onSubmitted: (_) => _onSubmit(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: "Valor R\$:"),
-              controller: _valueController,
-              keyboardType: TextInputType.numberWithOptions(),
-              onSubmitted: (_) => _onSubmit(),
-            ),
-            Container(
-              height: 70,
-              padding: EdgeInsets.all(10),
-              child: Row(
+        padding: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: paddingButton,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: "Titulo:"),
+                controller: _titleController,
+                onSubmitted: (_) => _onSubmit(),
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: "Valor R\$:"),
+                controller: _valueController,
+                keyboardType: TextInputType.numberWithOptions(),
+                onSubmitted: (_) => _onSubmit(),
+              ),
+              Container(
+                height: 70,
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        DateFormat('dd/MM/y').format(_selectedDate),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                      ),
+                      onPressed: _showDatePicker,
+                      child: Text(
+                        "Selecione uma data",
+                        style: TextStyle(
+                          color: Colors.purple,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(
-                    child: Text(
-                      DateFormat('dd/MM/y').format(_selectedDate),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
                   ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                        Colors.transparent,
-                      ),
-                      shadowColor: WidgetStatePropertyAll(Colors.transparent),
-                    ),
-                    onPressed: _showDatePicker,
-                    child: Text(
-                      "Selecione uma data",
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
+                    style: ButtonStyle(elevation: WidgetStatePropertyAll(0)),
+                    onPressed: () => _onSubmit(),
+                    child: Text('Nova Transação'),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(elevation: WidgetStatePropertyAll(0)),
-                  onPressed: () => _onSubmit(),
-                  child: Text('Nova Transação'),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -74,6 +74,7 @@ class _MyHomeState extends State<MyHome> {
   void _openModalTransaction(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (_) {
         return TransactionForm(onSubmit: _addTransactions);
       },
