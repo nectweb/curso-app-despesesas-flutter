@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:expenses/components/chart.dart';
@@ -75,6 +76,7 @@ class _MyHomeState extends State<MyHome> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (_) {
         return TransactionForm(onSubmit: _addTransactions);
       },
@@ -141,7 +143,7 @@ class _MyHomeState extends State<MyHome> {
                 //     mainAxisAlignment: MainAxisAlignment.center,
                 //     children: [
                 //       Text("Exibir Gráfico: "),
-                //       Switch(
+                //       Switch.adaptive(
                 //         value: _showGrafic,
                 //         onChanged: (value) {
                 //           setState(() {
@@ -169,13 +171,15 @@ class _MyHomeState extends State<MyHome> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openModalTransaction(context),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.all(Radius.circular(100)),
-        ),
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => _openModalTransaction(context),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.all(Radius.circular(100)),
+              ),
+              child: Icon(Icons.add),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
